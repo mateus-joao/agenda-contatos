@@ -1,0 +1,61 @@
+body{
+  background: black;
+  color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.userForm{
+  width: 400px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+}
+.userForm input{
+  width: 300px;
+  height: 40px;
+}
+.userForm button{
+  width: 100px;
+  height: 40px;
+}
+
+.userMain{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.userMain button{
+  width: 50px;
+  height: 30px;
+}
+
+  
+
+.newContatoForm{
+  width: 400px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+}
+.newContatoForm input{
+  width: 300px;
+  height: 40px;
+}
+.newContatoForm button{
+  width: 100px;
+  height: 40px;
+}
+
+.busca input{
+  width: 300px;
+  height: 40px;
+}
