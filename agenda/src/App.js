@@ -1,5 +1,5 @@
 
-import Error from "./components/erro"
+import Error from "./components/error"
 import Login from "./pages/login"
 import NewUser from "./pages/newUser"
 import Main from "./pages/main"
@@ -8,40 +8,37 @@ import { useState, useEffect } from "react"
 const App = () => {
   const [user, setUser] = useState(null);
   const [isLogin, setIsLogin] = useState(true);
-  const [erro, setErro] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     
-    const userSalvo = localStorage.getItem("usuario");
-    if (userSalvo) {
-      setUser(JSON.parse(userSalvo));
+    const checkUser = localStorage.getItem("user");
+    if (checkUser) {
+      setUser(JSON.parse(checkUser));
     }
   }, []);
 
 
-  function alternarModo() {
+  function handleToggleAuthMode() {
     setIsLogin(prev => !prev);
   }
   if(user){
-    return <Main setErro={setErro} setUser={setUser} user={user} />
+    return <Main setError={setError} setUser={setUser} user={user} />
   }
   return (
     
     <div>
-      <Error erro={erro} />
+      <Error error={error} />
       <h1>{isLogin ? "Login" : "Criar conta"}</h1>
 
-      {isLogin ? <Login setErro={setErro} setUser = {setUser} /> : <NewUser setErro={setErro} setUser = {setUser}/>}
+      {isLogin ? <Login setError={setError} setUser = {setUser} /> : <NewUser setError={setError} setUser = {setUser}/>}
 
-      <button onClick={alternarModo}>
+      <button onClick={handleToggleAuthMode}>
         {isLogin
           ? "Não tem conta? Criar usuário"
           : "Já tem conta? Fazer login"}
       </button>
       
-
-      
-
     </div>
   )
 }

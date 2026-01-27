@@ -1,3 +1,4 @@
+
 body{
   background: black;
   color: aliceblue;
@@ -37,7 +38,7 @@ body{
 
   
 
-.newContatoForm{
+.newContactForm{
   width: 400px;
   height: 150px;
   display: flex;
@@ -46,16 +47,16 @@ body{
   gap: 10px;
   border-radius: 10px;
 }
-.newContatoForm input{
+.newContactForm input{
   width: 300px;
   height: 40px;
 }
-.newContatoForm button{
+.newContactForm button{
   width: 100px;
   height: 40px;
 }
 
-.busca input{
+.search input{
   width: 300px;
   height: 40px;
 }

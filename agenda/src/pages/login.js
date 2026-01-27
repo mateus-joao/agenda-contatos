@@ -1,40 +1,40 @@
 import {useState} from "react";
 
-function Login({setUser, setErro}) {
-    const [loginNome, setLoginNome] = useState("");
-    const [loginsenha, setLoginSenha] = useState("");
-    const loginSubmit = async (e) =>{
+function Login({setUser, setError}) {
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    const handleLoginSubmit = async (e) =>{
         e.preventDefault();
         const res = await fetch("http://localhost:3001/api/users/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ loginNome, loginsenha }),
+            body: JSON.stringify({userName, password }),
         });
         if(res.ok){
             const data = await res.json();
-            localStorage.setItem("usuario", JSON.stringify(data));
+            localStorage.setItem("user", JSON.stringify(data));
             setUser(data)
         }else{
-            const erro = await res.json()
-            setErro(erro.error)
+            const data = await res.json()
+            setError(data.error)
         }
-        // tratar erros
+        
     }
 
    
   return (
     <div>
-        <form className="userForm" onSubmit={loginSubmit}>
+        <form className="userForm" onSubmit={handleLoginSubmit}>
         <input
-            onChange={(e)=> { setLoginNome(e.target.value)} }
-            value={loginNome}
+            onChange={(e)=> { setUserName(e.target.value)} }
+            value={userName}
             placeholder="Nome"
             type="text"
         />
 
         <input
-            onChange={(e)=> {setLoginSenha(e.target.value)}}
-            value={loginsenha}
+            onChange={(e)=> {setPassword(e.target.value)}}
+            value={password}
             placeholder="senha"
             type="password"
         />

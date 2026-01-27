@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const usersRoutes = require("./routes/userRoutes");
-const contatosRoutes = require("./routes/contatosRouters");
+const contactsRoutes = require("./routes/contactsRouters");
 
 const app = express();
 
@@ -10,6 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", usersRoutes);
-app.use("/api/contatos", contatosRoutes);
+app.use("/api/contacts", contactsRoutes);
 
 module.exports = app;
