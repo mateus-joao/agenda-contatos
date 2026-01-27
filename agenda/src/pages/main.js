@@ -11,7 +11,7 @@ const Main = ({setError, setUser, user}) => {
   const handleAddContact = async (e) => {
     e.preventDefault();
     if(id){
-        const res = await fetch(`http://localhost:3001/api/contatos/${user.id}/${id}`, {
+        const res = await fetch(`http://localhost:3001/api/contacts/${user.id}/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({newContactName, newContactPhone}),
