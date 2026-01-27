@@ -12,7 +12,7 @@ const App = () => {
 
   useEffect(() => {
     
-    const checkUser = localStorage.getItem("usuario");
+    const checkUser = localStorage.getItem("user");
     if (checkUser) {
       setUser(JSON.parse(checkUser));
     }

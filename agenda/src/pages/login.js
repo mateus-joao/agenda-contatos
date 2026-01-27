@@ -12,11 +12,11 @@ function Login({setUser, setError}) {
         });
         if(res.ok){
             const data = await res.json();
-            localStorage.setItem("usuario", JSON.stringify(data));
+            localStorage.setItem("user", JSON.stringify(data));
             setUser(data)
         }else{
-            const erro = await res.json()
-            setError(erro.error)
+            const data = await res.json()
+            setError(data.error)
         }
         
     }

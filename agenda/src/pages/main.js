@@ -25,7 +25,7 @@ const Main = ({setError, setUser, user}) => {
       };
         
     }else{
-      const res = await fetch(`http://localhost:3001/api/contatos/${user.id}`, {
+      const res = await fetch(`http://localhost:3001/api/contacts/${user.id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ newContactName, newContactPhone}),
@@ -50,7 +50,7 @@ const Main = ({setError, setUser, user}) => {
     if (!user?.id) return;
       async function buscarContatos() {
       try {
-        const response = await fetch(`http://localhost:3001/api/contatos/${user.id}`);
+        const response = await fetch(`http://localhost:3001/api/contacts/${user.id}`);
         const data = await response.json();
         setContacts(data);
       } catch (error) {
@@ -71,7 +71,7 @@ const Main = ({setError, setUser, user}) => {
 
   //apagando contato
   const handleDeleteContact = async (e) => {
-      const res = await fetch(`http://localhost:3001/api/contatos/${user.id}/${e}`, {
+      const res = await fetch(`http://localhost:3001/api/contacts/${user.id}/${e}`, {
       method: "DELETE",
     });
     if(res.ok){

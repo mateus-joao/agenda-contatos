@@ -10,6 +10,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/users", usersRoutes);
-app.use("/api/contatos", contactsRoutes);
+app.use("/api/contacts", contactsRoutes);
 
 module.exports = app;

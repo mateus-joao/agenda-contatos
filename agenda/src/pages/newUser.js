@@ -13,7 +13,7 @@ const NewUser = ({ setError, setUser}) => {
         });
         if(res.ok){
           const data = await res.json();
-          localStorage.setItem("usuario", JSON.stringify(data));
+          localStorage.setItem("user", JSON.stringify(data));
           setUser(data);
         }else{
           const data = await res.json();
