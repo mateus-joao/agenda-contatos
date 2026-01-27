@@ -1,57 +1,58 @@
-import NewContato from "../components/newContato"
-import Exibir from "../components/exibir"
+import AddContact from "../components/addContact" 
+import ContactList from "../components/contactList" // backend
 import { useEffect, useState } from "react"
-import Busca from "../components/busca"
-const Main = ({setErro, setUser, user}) => {
-  const [busca, setBusca] = useState("");
-  const [contatos, setContatos] = useState([]);
-  const [nome, setNome] = useState("");
-  const [numero, setNumero] = useState("");
+import SearchContact from "../components/searchContact" //ok
+const Main = ({setError, setUser, user}) => {
+  const [searchTerm, setSearchTerm] = useState(""); 
+  const [contacts, setContacts] = useState([]);
+  const [newContactName, setContactName] = useState("");
+  const [newContactPhone, setContactPhone] = useState("");
   const [id, setId] = useState(null)
-  const agendaSubmit = async (e) => {
+  const handleAddContact = async (e) => {
     e.preventDefault();
     if(id){
-      console.log("editando")
         const res = await fetch(`http://localhost:3001/api/contatos/${user.id}/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, numero}),
+        body: JSON.stringify({newContactName, newContactPhone}),
       });
       
       if(res.ok){
-          const data = await res.json();
-          setContatos([...data])
+        setContactName("")
+        setContactPhone("")
+        const data = await res.json();
+        setContacts([...data])
       };
         
     }else{
       const res = await fetch(`http://localhost:3001/api/contatos/${user.id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, numero}),
+        body: JSON.stringify({ newContactName, newContactPhone}),
       });
       if(res.ok){
-          setNome("")
-          setNumero("")
+          setContactName("")
+          setContactPhone("")
           const data = await res.json();
-          setContatos([...contatos, data])
+          setContacts([...contacts, data])
       };
     }
         
     };
-  const onEdit = (e) =>{
+  const handleEditContact = (e) =>{
     setId(e.id);
-    setNome(e.nome);
-    setNumero(e.numero);
+    setContactName(e.name);
+    setContactPhone(e.phone);
     
   }
-
+  
   useEffect(() => {
     if (!user?.id) return;
       async function buscarContatos() {
       try {
         const response = await fetch(`http://localhost:3001/api/contatos/${user.id}`);
         const data = await response.json();
-        setContatos(data);
+        setContacts(data);
       } catch (error) {
         console.error("Erro ao buscar contatos:", error);
       }
@@ -59,8 +60,9 @@ const Main = ({setErro, setUser, user}) => {
 
   buscarContatos();
 }, [user?.id]);
-  // voltal a tela inicial lagin/cadastro
-  const onExit = (e) => {
+
+  // voltar a tela inicial login/cadastro
+  const handleExitUser = (e) => {
     e.preventDefault()
     localStorage.setItem("usuario", JSON.stringify(""));
     setUser(null)
@@ -68,14 +70,13 @@ const Main = ({setErro, setUser, user}) => {
 
 
   //apagando contato
-  const onDelete = async (e) => {
-      console.log( "apagando o contato" ,e)
-          const res = await fetch(`http://localhost:3001/api/contatos/${user.id}/${e}`, {
+  const handleDeleteContact = async (e) => {
+      const res = await fetch(`http://localhost:3001/api/contatos/${user.id}/${e}`, {
       method: "DELETE",
     });
     if(res.ok){
       const data = await res.json();
-      setContatos(data)
+      setContacts(data)
     }
     }
 
@@ -83,23 +84,23 @@ const Main = ({setErro, setUser, user}) => {
     
     <div className="mainContainer">
       <div className="userMain">
-        <h1>usuario: {user.nome}</h1>
-        <button onClick={onExit}>sair</button>
+        <h1>usuario: {user.name}</h1>
+        <button onClick={handleExitUser}>sair</button>
       </div>
-        <NewContato 
-          agendaSubmit={agendaSubmit}
-          nome={nome}
-          numero={numero}
-          setNome={setNome}
-          setNumero={setNumero}
+        <AddContact 
+          handleAddContact={handleAddContact}
+          newContactName={newContactName}
+          newContactPhone={newContactPhone}
+          setContactName={setContactName}
+          setContactPhone={setContactPhone}
         />
-        <Busca setBusca={setBusca}/>  
+        <SearchContact setSearchTerm={setSearchTerm}/>  
         
-        <Exibir
-          busca = {busca} 
-          onEdit={onEdit}
-          onDelete={onDelete}
-          contatos={contatos}/>        
+        <ContactList
+          searchTerm = {searchTerm} 
+          handleEditContact={handleEditContact}
+          handleDeleteContact={handleDeleteContact}
+          contacts={contacts}/>        
     </div>
   )
 }

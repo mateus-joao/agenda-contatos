@@ -1,7 +1,7 @@
 let users = [
-  { id: "1", nome: "mts", senha: "123", contatos: [{ nome: "mts", numero: "2321", id: "2132" }] },
-  { id: "2", nome: "jp", senha: "234", contatos: [{ nome: "ts", numero: "231", id: "132" }] },
-  { id: "3", nome: "mj", senha: "222", contatos: [{ nome: "ms", numero: "221", id: "213" }] },
+  { id: "1", name: "mts", password: "123", contacts: [{ name: "mts", phone: "2321", id: "2132" }] },
+  { id: "2", name: "jp", password: "234", contacts: [{ name: "ts", phone: "231", id: "132" }] },
+  { id: "3", name: "mj", password: "222", contacts: [{ name: "ms", phone: "221", id: "213" }] },
 ];
 
 // USERS
@@ -13,8 +13,8 @@ function findUserById(id) {
   return users.find(u => u.id === id);
 }
 
-function findUserByNome(nome) {
-  return users.find(u => u.nome === nome);
+function findUserByNome(name) {
+  return users.find(u => u.name === name);
 }
 
 function createUser(user) {
@@ -23,31 +23,31 @@ function createUser(user) {
 }
 
 // CONTATOS
-function addContato(userId, contato) {
+function addContact(userId, contact) {
   const user = findUserById(userId);
   if (!user) return null;
 
-  user.contatos.push(contato);
-  return contato;
+  user.contacts.push(contact);
+  return contact;
 }
 
-function deleteContato(userId, contatoId) {
+function deleteContact(userId, contactId) {
   const user = findUserById(userId);
   if (!user) return null;
 
-  user.contatos = user.contatos.filter(c => c.id !== contatoId);
-  return user.contatos;
+  user.contacts = user.contacts.filter(c => c.id !== contactId);
+  return user.contacts;
 }
 
-function updateContato(userId, contatoId, dados) {
+function updateContact(userId, contactId, object) {
   const user = findUserById(userId);
   if (!user) return null;
 
-  user.contatos = user.contatos.map(c =>
-    c.id === contatoId ? { ...c, ...dados } : c
+  user.contacts = user.contacts.map(c =>
+    c.id === contactId ? { ...c, ...object } : c
   );
 
-  return user.contatos;
+  return user.contacts;
 }
 
 module.exports = {
@@ -55,7 +55,7 @@ module.exports = {
   findUserById,
   findUserByNome,
   createUser,
-  addContato,
-  deleteContato,
-  updateContato
+  addContact,
+  deleteContact,
+  updateContact
 };

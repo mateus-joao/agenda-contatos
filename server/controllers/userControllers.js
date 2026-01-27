@@ -1,45 +1,43 @@
 const usersService = require("../services/userServices");
 
 function getUsers(req, res) {
-  console.log('testando ');
   res.json(usersService.getUsers());
 }
-
+// login
 function login(req, res) {
-  console.log('user login')
-  const { loginNome, loginsenha } = req.body;
+  const {userName, password } = req.body;
 
-  const usuario = usersService.findUserByNome(loginNome);
-  if (!usuario) {
+  const user = usersService.findUserByNome(userName);
+  if (!user) {
     return res.status(401).json({ error: "usuário inválido" });
   }
 
-  if (usuario.senha !== loginsenha) {
+  if (user.password !== password) {
     return res.status(401).json({ error: "senha inválida" });
   }
 
   res.json({
-    id: usuario.id,
-    nome: usuario.nome
+    id: user.id,
+    name: user.name
   });
 }
-
+// cadastro de usuario
 function createUser(req, res) {
-  const { nome, senha } = req.body;
+  const { userName, password } = req.body;
 
-  if (usersService.findUserByNome(nome)) {
+  if (usersService.findUserByNome(userName)) {
     return res.status(400).json({ error: "nome já utilizado" });
   }
 
   const user = {
     id: Date.now().toString(),
-    nome,
-    senha,
-    contatos: []
+    name: userName,
+    password: password,
+    contacts: []
   };
 
   usersService.createUser(user);
-  res.status(201).json({ id: user.id, nome: user.nome });
+  res.status(201).json({ id: user.id, name: user.name });
 }
 
 module.exports = {
