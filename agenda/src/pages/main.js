@@ -48,7 +48,7 @@ const Main = ({setError, setUser, user}) => {
   
   useEffect(() => {
     if (!user?.id) return;
-      async function buscarContatos() {
+      async function getContacts() {
       try {
         const response = await fetch(`http://localhost:3001/api/contacts/${user.id}`);
         const data = await response.json();
@@ -58,13 +58,13 @@ const Main = ({setError, setUser, user}) => {
       }
   }
 
-  buscarContatos();
+  getContacts();
 }, [user?.id]);
 
   // voltar a tela inicial login/cadastro
   const handleExitUser = (e) => {
     e.preventDefault()
-    localStorage.setItem("usuario", JSON.stringify(""));
+    localStorage.setItem("user", JSON.stringify(""));
     setUser(null)
   }
 
