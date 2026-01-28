@@ -25,7 +25,7 @@ class UserService {
 
   // CONTATOS
   addContact(userId, contact) {
-    const user = findUserById(userId);
+    const user = this.findUserById(userId);
     if (!user) return null;
 
     user.contacts.push(contact);
@@ -33,7 +33,7 @@ class UserService {
   }
 
   deleteContact(userId, contactId) {
-    const user = findUserById(userId);
+    const user = this.findUserById(userId);
     if (!user) return null;
 
     user.contacts = user.contacts.filter(c => c.id !== contactId);
@@ -41,7 +41,7 @@ class UserService {
   }
 
   updateContact(userId, contactId, object) {
-    const user = findUserById(userId);
+    const user = this.findUserById(userId);
     if (!user) return null;
 
     user.contacts = user.contacts.map(c =>

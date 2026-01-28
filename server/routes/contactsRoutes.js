@@ -3,10 +3,16 @@ const router = express.Router();
 import contactController from "../controllers/contactsControllers.js"
 
 
-router.get("/:id", (req, res) => contactController.getContacts(req, res));
-router.post("/:id", (req, res) => contactController.addContact(req, res));
-router.delete("/:userId/:id", (req, res) => contactController.deleteContact(req, res));
-router.put("/:userId/:id", (req, res) => contactController.updateContact(req, res));
+// contatos de um usuario
+router.get("/user/:userId",(req, res) => contactController.getContacts(req, res));
 
+// adicionar contato 
+router.post("/user/:userId", (req, res) => contactController.addContact(req, res));
+
+// deletar contato 
+router.delete("/:contactId/user/:userId",(req, res) => contactController.deleteContact(req, res));
+
+// atualizar contato
+router.put("/:contactId/user/:userId", (req, res) => contactController.updateContact(req, res));
 
 export default router;

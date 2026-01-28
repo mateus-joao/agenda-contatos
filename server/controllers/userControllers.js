@@ -7,7 +7,7 @@ class UserController {
   login(req, res) {
     const {userName, password } = req.body;
 
-    const user = usersService.findUserByNome(userName);
+    const user = usersService.findUserByNome(userName.trim());
     if (!user) {
       return res.status(401).json({ error: "usuário inválido" });
     }

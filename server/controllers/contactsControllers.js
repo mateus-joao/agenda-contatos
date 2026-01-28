@@ -2,13 +2,13 @@ import usersService from "../services/userServices.js";
 
   class ContactController {
    getContacts(req, res) {
-    const user = usersService.findUserById(req.params.id);
+    const user = usersService.findUserById(req.params.userId);
     res.json(user?.contacts || []);
   }
 
  addContact(req, res) {
     const { newContactName, newContactPhone } = req.body;
-    const { id } = req.params;
+    const { userId } = req.params;
 
     if (!newContactName || !newContactPhone) {
       return res.status(400).json({ error: "nome e número obrigatórios" });
@@ -20,7 +20,7 @@ import usersService from "../services/userServices.js";
       phone: newContactPhone
     };
 
-    const result = usersService.addContact(id, contact);
+    const result = usersService.addContact(userId, contact);
     if (!result) {
       return res.status(404).json({ error: "usuário não encontrado" });
     }
@@ -29,9 +29,8 @@ import usersService from "../services/userServices.js";
   }
 
   deleteContact(req, res) {
-    const { userId, id } = req.params;
-
-    const contacts = usersService.deleteContact(userId, id);
+    const { userId, contactId } = req.params;
+    const contacts = usersService.deleteContact(userId, contactId);
     if (!contacts) {
       return res.status(404).json({ error: "usuário não encontrado" });
     }
@@ -40,10 +39,10 @@ import usersService from "../services/userServices.js";
   }
 
   updateContact(req, res) {
-    const { userId, id } = req.params;
+    const { userId, contactId } = req.params;
     const { newContactName, newContactPhone } = req.body;
 
-    const contacts = usersService.updateContact(userId, id, { name: newContactName, phone: newContactPhone });
+    const contacts = usersService.updateContact(userId, contactId, { name: newContactName, phone: newContactPhone });
     res.json(contacts);
   }
 
