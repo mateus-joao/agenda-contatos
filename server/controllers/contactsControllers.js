@@ -1,4 +1,4 @@
-const usersService = require("../services/userServices");
+import usersService from "../services/userServices.js";
 
 function getContacts(req, res) {
   const user = usersService.findUserById(req.params.id);
@@ -46,7 +46,7 @@ function updateContact(req, res) {
   res.json(contacts);
 }
 
-module.exports = {
+export default {
   getContacts,
   addContact,
   deleteContact,

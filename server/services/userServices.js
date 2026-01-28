@@ -50,7 +50,7 @@ function updateContact(userId, contactId, object) {
   return user.contacts;
 }
 
-module.exports = {
+export default {
   getUsers,
   findUserById,
   findUserByNome,

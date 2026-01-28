@@ -1,8 +1,8 @@
-const express = require("express");
-const cors = require("cors");
+import express from "express";
+import cors from "cors";
 
-const usersRoutes = require("./routes/userRoutes");
-const contactsRoutes = require("./routes/contactsRouters");
+import usersRoutes from "./routes/userRoutes.js";
+import contactsRoutes from "./routes/contactsRouters.js"
 
 const app = express();
 
@@ -12,4 +12,4 @@ app.use(express.json());
 app.use("/api/users", usersRoutes);
 app.use("/api/contacts", contactsRoutes);
 
-module.exports = app;
+export default app
