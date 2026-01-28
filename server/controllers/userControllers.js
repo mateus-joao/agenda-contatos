@@ -1,4 +1,4 @@
-const usersService = require("../services/userServices");
+import usersService  from "../services/userServices.js";
 
 function getUsers(req, res) {
   res.json(usersService.getUsers());
@@ -40,7 +40,7 @@ function createUser(req, res) {
   res.status(201).json({ id: user.id, name: user.name });
 }
 
-module.exports = {
+export default {
   getUsers,
   login,
   createUser
