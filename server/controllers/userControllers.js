@@ -1,13 +1,16 @@
-import usersService  from "../services/userServices.js";
-class UserController {
+import UsersService  from "../services/userServices.js";
+
+
+
+export default class UserController {
   getUsers(req, res) {
-    res.json(usersService.getUsers());
+    res.json(UsersService.getUsers());
   }
   // login
   login(req, res) {
     const {userName, password } = req.body;
 
-    const user = usersService.findUserByNome(userName.trim());
+    const user = UsersService.findUserByNome(userName.trim());
     if (!user) {
       return res.status(401).json({ error: "usuário inválido" });
     }
@@ -26,7 +29,7 @@ class UserController {
   createUser(req, res) {
     const { userName, password } = req.body;
 
-    if (usersService.findUserByNome(userName)) {
+    if (UsersService.findUserByNome(userName)) {
       return res.status(400).json({ error: "nome já utilizado" });
     }
 
@@ -37,12 +40,9 @@ class UserController {
       contacts: []
     };
 
-    usersService.createUser(user);
+    UsersService.createUser(user);
     res.status(201).json({ id: user.id, name: user.name });
   }
 
 }
 
-
-
-export default new UserController();

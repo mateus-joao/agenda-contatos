@@ -1,14 +1,16 @@
-import usersService from "../services/userServices.js";
+import UsersService from "../services/userServices.js";
 
-  class ContactController {
+
+export default class ContactController {
    getContacts(req, res) {
-    const user = usersService.findUserById(req.params.userId);
+    const user = UsersService.findUserById(req.params.userId);
     res.json(user?.contacts || []);
   }
 
  addContact(req, res) {
     const { newContactName, newContactPhone } = req.body;
     const { userId } = req.params;
+    console.log("nome:" ,newContactName,"phone:", newContactPhone,"id:", userId)
 
     if (!newContactName || !newContactPhone) {
       return res.status(400).json({ error: "nome e número obrigatórios" });
@@ -20,9 +22,11 @@ import usersService from "../services/userServices.js";
       phone: newContactPhone
     };
 
-    const result = usersService.addContact(userId, contact);
+    const result = UsersService.addContact(userId, contact);
     if (!result) {
+      console.log(result)
       return res.status(404).json({ error: "usuário não encontrado" });
+      
     }
 
     res.status(201).json(contact);
@@ -30,7 +34,7 @@ import usersService from "../services/userServices.js";
 
   deleteContact(req, res) {
     const { userId, contactId } = req.params;
-    const contacts = usersService.deleteContact(userId, contactId);
+    const contacts = UsersService.deleteContact(userId, contactId);
     if (!contacts) {
       return res.status(404).json({ error: "usuário não encontrado" });
     }
@@ -42,10 +46,10 @@ import usersService from "../services/userServices.js";
     const { userId, contactId } = req.params;
     const { newContactName, newContactPhone } = req.body;
 
-    const contacts = usersService.updateContact(userId, contactId, { name: newContactName, phone: newContactPhone });
+    const contacts = UsersService.updateContact(userId, contactId, { name: newContactName, phone: newContactPhone });
     res.json(contacts);
   }
 
 }
 
-export default new ContactController();
+
