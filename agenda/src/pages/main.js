@@ -11,7 +11,7 @@ const Main = ({setError, setUser, user}) => {
   const handleAddContact = async (e) => {
     e.preventDefault();
     if(id){
-        const res = await fetch(`http://localhost:3001/api/contacts/${user.id}/${id}`, {
+        const res = await fetch(`http://localhost:3001/api/contacts/${id}/user/${user.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({newContactName, newContactPhone}),
@@ -20,12 +20,13 @@ const Main = ({setError, setUser, user}) => {
       if(res.ok){
         setContactName("")
         setContactPhone("")
+        setId(null)
         const data = await res.json();
         setContacts([...data])
       };
         
     }else{
-      const res = await fetch(`http://localhost:3001/api/contacts/${user.id}`, {
+      const res = await fetch(`http://localhost:3001/api/contacts/user/${user.id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ newContactName, newContactPhone}),
@@ -33,6 +34,7 @@ const Main = ({setError, setUser, user}) => {
       if(res.ok){
           setContactName("")
           setContactPhone("")
+
           const data = await res.json();
           setContacts([...contacts, data])
       };
@@ -50,7 +52,7 @@ const Main = ({setError, setUser, user}) => {
     if (!user?.id) return;
       async function getContacts() {
       try {
-        const response = await fetch(`http://localhost:3001/api/contacts/${user.id}`);
+        const response = await fetch(`http://localhost:3001/api/contacts/user/${user.id}`);
         const data = await response.json();
         setContacts(data);
       } catch (error) {
@@ -71,7 +73,8 @@ const Main = ({setError, setUser, user}) => {
 
   //apagando contato
   const handleDeleteContact = async (e) => {
-      const res = await fetch(`http://localhost:3001/api/contacts/${user.id}/${e}`, {
+
+      const res = await fetch(`http://localhost:3001/api/contacts/${e}/user/${user.id}`, {
       method: "DELETE",
     });
     if(res.ok){
