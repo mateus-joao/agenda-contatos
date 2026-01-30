@@ -1,16 +1,16 @@
 import UsersService  from "../services/userServices.js";
-
+const UserServiceInstance = new UsersService();
 
 
 export default class UserController {
   getUsers(req, res) {
-    res.json(UsersService.getUsers());
+    res.json(UserServiceInstance.getUsers());
   }
   // login
   login(req, res) {
     const {userName, password } = req.body;
 
-    const user = UsersService.findUserByNome(userName.trim());
+    const user = UserServiceInstance.findUserByNome(userName.trim());
     if (!user) {
       return res.status(401).json({ error: "usuário inválido" });
     }
@@ -29,7 +29,7 @@ export default class UserController {
   createUser(req, res) {
     const { userName, password } = req.body;
 
-    if (UsersService.findUserByNome(userName)) {
+    if (UserServiceInstance.findUserByNome(userName)) {
       return res.status(400).json({ error: "nome já utilizado" });
     }
 
@@ -40,7 +40,7 @@ export default class UserController {
       contacts: []
     };
 
-    UsersService.createUser(user);
+    UserServiceInstance.createUser(user);
     res.status(201).json({ id: user.id, name: user.name });
   }
 
