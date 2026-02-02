@@ -1,5 +1,6 @@
 import UsersService  from "../services/userServices.js";
-const UserServiceInstance = new UsersService();
+import { users } from "../data/usersData.js";
+const UserServiceInstance = new UsersService(users);
 
 
 export default class UserController {

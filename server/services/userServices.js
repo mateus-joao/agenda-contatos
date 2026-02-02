@@ -1,23 +1,26 @@
-import { users } from "../data/usersData.js";
+
 
 export default class UserService {
-
+  #users;
+  constructor(users) {
+    this.#users = users;
+  }
 
     // USERS
   getUsers() {
-    return users;
+    return this.#users;
   }
 
   findUserById(id) {
-    return users.find(u => u.id === id);
+    return this.#users.find(u => u.id === id);
   }
 
   findUserByNome(name) {
-    return users.find(u => u.name === name);
+    return this.#users.find(u => u.name === name);
   }
 
   createUser(user) {
-    users.push(user);
+    this.#users.push(user);
     return user;
   }
 

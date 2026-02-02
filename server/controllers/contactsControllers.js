@@ -1,6 +1,6 @@
 import UsersService from "../services/userServices.js";
-
-const ContactServiceInstance = new UsersService();
+import { users } from "../data/usersData.js";
+const ContactServiceInstance = new UsersService(users);
 export default class ContactController {
    getContacts(req, res) {
     const user = ContactServiceInstance.findUserById(req.params.userId);
