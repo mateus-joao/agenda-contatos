@@ -1,56 +1,71 @@
-
+import prisma from "../database/prismaClient.js";
 
 export default class UserService {
-  #users;
-  constructor(users) {
-    this.#users = users;
+  // USERS
+  async getUsers() {
+    return prisma.user.findMany({
+      include: { contacts: true },
+    });
   }
 
-    // USERS
-  getUsers() {
-    return this.#users;
+  async findUserById(id) {
+    return prisma.user.findUnique({
+      where: { id },
+      include: { contacts: true },
+    });
   }
 
-  findUserById(id) {
-    return this.#users.find(u => u.id === id);
+  async findUserByNome(name) {
+    return prisma.user.findFirst({
+      where: { name },
+    });
   }
 
-  findUserByNome(name) {
-    return this.#users.find(u => u.name === name);
-  }
-
-  createUser(user) {
-    this.#users.push(user);
-    return user;
+  async createUser(user) {
+    return prisma.user.create({
+      data: {
+        name: user.name,
+        password: user.password,
+      },
+    });
   }
 
   // CONTATOS
-  addContact(userId, contact) {
-    const user = this.findUserById(userId);
-    if (!user) return null;
-
-    user.contacts.push(contact);
-    return contact;
+  async addContact(userId, contact) {
+    return prisma.contact.create({
+      data: {
+        name: contact.name,
+        phone: contact.phone,
+        userId,
+      },
+    });
   }
 
-  deleteContact(userId, contactId) {
-    const user = this.findUserById(userId);
-    if (!user) return null;
+  async deleteContact(userId, contactId) {
+    // garante que o contato pertence ao usuário
+    const contact = await prisma.contact.findFirst({
+      where: { id: contactId, userId },
+    });
 
-    user.contacts = user.contacts.filter(c => c.id !== contactId);
-    return user.contacts;
+    if (!contact) return null;
+
+    await prisma.contact.delete({
+      where: { id: contactId },
+    });
+
+    return true;
   }
 
-  updateContact(userId, contactId, object) {
-    const user = this.findUserById(userId);
-    if (!user) return null;
+  async updateContact(userId, contactId, object) {
+    const contact = await prisma.contact.findFirst({
+      where: { id: contactId, userId },
+    });
 
-    user.contacts = user.contacts.map(c =>
-      c.id === contactId ? { ...c, ...object } : c
-    );
+    if (!contact) return null;
 
-    return user.contacts;
+    return prisma.contact.update({
+      where: { id: contactId },
+      data: object,
+    });
   }
 }
-
-
