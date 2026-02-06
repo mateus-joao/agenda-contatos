@@ -30,8 +30,8 @@ export default class UserController {
   // cadastro de usuário
   async createUser(req, res) {
     const { userName, password } = req.body;
-
-    if (await userService.findUserByNome(userName.trim())) {
+    const userAlreadyExist = await userService.findUserByNome(userName.trim())
+    if (userAlreadyExist) {
       return res.status(400).json({ error: "nome já utilizado" });
     }
 
