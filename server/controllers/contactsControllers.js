@@ -1,54 +1,66 @@
 import UsersService from "../services/userServices.js";
-import { users } from "../data/usersData.js";
-const ContactServiceInstance = new UsersService(users);
+
+const userService = new UsersService();
+
 export default class ContactController {
-   getContacts(req, res) {
-    const user = ContactServiceInstance.findUserById(req.params.userId);
-    res.json(user?.contacts || []);
+  async getContacts(req, res) {
+    const { userId } = req.params;
+
+    const user = await userService.findUserById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "usuário não encontrado" });
+    }
+
+    res.json(user.contacts);
   }
 
- addContact(req, res) {
-    const { newContactName, newContactPhone } = req.body;
+  async addContact(req, res) {
     const { userId } = req.params;
+    const { newContactName, newContactPhone } = req.body;
 
     if (!newContactName || !newContactPhone) {
       return res.status(400).json({ error: "nome e número obrigatórios" });
     }
 
-    const contact = {
-      id: Date.now().toString(),
+    const contact = await userService.addContact(userId, {
       name: newContactName,
-      phone: newContactPhone
-    };
+      phone: newContactPhone,
+    });
 
-    const result = ContactServiceInstance.addContact(userId, contact);
-    if (!result) {
-      console.log(result)
+    if (!contact) {
       return res.status(404).json({ error: "usuário não encontrado" });
-      
     }
 
     res.status(201).json(contact);
   }
 
-  deleteContact(req, res) {
+  async deleteContact(req, res) {
     const { userId, contactId } = req.params;
-    const contacts = ContactServiceInstance.deleteContact(userId, contactId);
-    if (!contacts) {
-      return res.status(404).json({ error: "usuário não encontrado" });
+
+    const result = await userService.deleteContact(userId, contactId);
+
+    if (!result) {
+      return res.status(404).json({ error: "contato ou usuário não encontrado" });
     }
 
-    res.json(contacts);
+    res.status(204).send();
   }
 
-  updateContact(req, res) {
+  async updateContact(req, res) {
     const { userId, contactId } = req.params;
     const { newContactName, newContactPhone } = req.body;
 
-    const contacts = ContactServiceInstance.updateContact(userId, contactId, { name: newContactName, phone: newContactPhone });
-    res.json(contacts);
+    const contact = await userService.updateContact(
+      userId,
+      contactId,
+      { name: newContactName, phone: newContactPhone }
+    );
+
+    if (!contact) {
+      return res.status(404).json({ error: "contato ou usuário não encontrado" });
+    }
+
+    res.json(contact);
   }
-
 }
-
-

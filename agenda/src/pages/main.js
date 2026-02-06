@@ -10,6 +10,7 @@ const Main = ({setError, setUser, user}) => {
   const [id, setId] = useState(null)
   const handleAddContact = async (e) => {
     e.preventDefault();
+    //editar
     if(id){
         const res = await fetch(`http://localhost:3001/api/contacts/${id}/user/${user.id}`, {
         method: "PUT",
@@ -18,13 +19,16 @@ const Main = ({setError, setUser, user}) => {
       });
       
       if(res.ok){
+        
         setContactName("")
         setContactPhone("")
         setId(null)
         const data = await res.json();
-        setContacts([...data])
+        setContacts(contacts.map(c =>
+        c.id === data.id ? { ...c, ...data } : c
+    ));
       };
-        
+    //addcontato
     }else{
       const res = await fetch(`http://localhost:3001/api/contacts/user/${user.id}`, {
         method: "POST",
@@ -78,9 +82,10 @@ const Main = ({setError, setUser, user}) => {
       method: "DELETE",
     });
     if(res.ok){
-      const data = await res.json();
-      setContacts(data)
-    }
+      console.log(res)
+      setContacts(contacts.filter(c => c.id !== e))
+
+    }else{console.log("error ",res)}
     }
 
   return (

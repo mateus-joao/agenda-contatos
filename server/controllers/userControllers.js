@@ -1,17 +1,18 @@
-import UsersService  from "../services/userServices.js";
-import { users } from "../data/usersData.js";
-const UserServiceInstance = new UsersService(users);
+import UsersService from "../services/userServices.js";
 
+const userService = new UsersService();
 
 export default class UserController {
-  getUsers(req, res) {
-    res.json(UserServiceInstance.getUsers());
+  async getUsers(req, res) {
+    const users = await userService.getUsers();
+    res.json(users);
   }
-  // login
-  login(req, res) {
-    const {userName, password } = req.body;
 
-    const user = UserServiceInstance.findUserByNome(userName.trim());
+  // login
+  async login(req, res) {
+    const { userName, password } = req.body;
+
+    const user = await userService.findUserByNome(userName.trim());
     if (!user) {
       return res.status(401).json({ error: "usuário inválido" });
     }
@@ -22,28 +23,27 @@ export default class UserController {
 
     res.json({
       id: user.id,
-      name: user.name
+      name: user.name,
     });
   }
 
-  // cadastro de usuario
-  createUser(req, res) {
+  // cadastro de usuário
+  async createUser(req, res) {
     const { userName, password } = req.body;
-
-    if (UserServiceInstance.findUserByNome(userName)) {
+    const userAlreadyExist = await userService.findUserByNome(userName.trim())
+    if (userAlreadyExist) {
       return res.status(400).json({ error: "nome já utilizado" });
     }
 
-    const user = {
-      id: Date.now().toString(),
-      name: userName,
-      password: password,
-      contacts: []
-    };
+    const user = await userService.createUser({
+      name: userName.trim(),
+      password,
+    });
 
-    UserServiceInstance.createUser(user);
-    res.status(201).json({ id: user.id, name: user.name });
+    res.status(201).json({
+      id: user.id,
+      name: user.name,
+    });
   }
-
 }
 
