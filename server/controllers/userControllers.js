@@ -1,4 +1,4 @@
-import UsersService from "../services/userServices.js";
+import UsersService from '../services/userServices.js';
 
 const userService = new UsersService();
 
@@ -14,11 +14,11 @@ export default class UserController {
 
     const user = await userService.findUserByNome(userName.trim());
     if (!user) {
-      return res.status(401).json({ error: "usuário inválido" });
+      return res.status(401).json({ error: 'usuário inválido' });
     }
 
     if (user.password !== password) {
-      return res.status(401).json({ error: "senha inválida" });
+      return res.status(401).json({ error: 'senha inválida' });
     }
 
     res.json({
@@ -30,9 +30,9 @@ export default class UserController {
   // cadastro de usuário
   async createUser(req, res) {
     const { userName, password } = req.body;
-    const userAlreadyExist = await userService.findUserByNome(userName.trim())
+    const userAlreadyExist = await userService.findUserByNome(userName.trim());
     if (userAlreadyExist) {
-      return res.status(400).json({ error: "nome já utilizado" });
+      return res.status(400).json({ error: 'nome já utilizado' });
     }
 
     const user = await userService.createUser({
@@ -46,4 +46,3 @@ export default class UserController {
     });
   }
 }
-

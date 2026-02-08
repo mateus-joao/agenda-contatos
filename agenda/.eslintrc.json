@@ -1,0 +1,7 @@
+{
+  "extends": ["react-app", "react-app/jest", "plugin:prettier/recommended"],
+  "rules": {
+    "prettier/prettier": "warn",
+    "no-unused-vars": "warn"
+  }
+}
