@@ -1,6 +1,6 @@
-import UsersService from '../services/userServices.js';
+import { UserService } from '../services/index.js';
 
-const userService = new UsersService();
+const userService = new UserService();
 
 export default class ContactController {
   async getContacts(req, res) {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ContactController from '../controllers/contactsControllers.js';
+import { ContactController } from '../controllers/index.js';
 const ContactControllerInstance = new ContactController();
 const contactsRoutes = Router();
 // contatos de um usuario
