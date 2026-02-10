@@ -1,4 +1,4 @@
-import UsersService from "../services/userServices.js";
+import UsersService from '../services/userServices.js';
 
 const userService = new UsersService();
 
@@ -9,7 +9,7 @@ export default class ContactController {
     const user = await userService.findUserById(userId);
 
     if (!user) {
-      return res.status(404).json({ error: "usuário não encontrado" });
+      return res.status(404).json({ error: 'usuário não encontrado' });
     }
 
     res.json(user.contacts);
@@ -20,7 +20,7 @@ export default class ContactController {
     const { newContactName, newContactPhone } = req.body;
 
     if (!newContactName || !newContactPhone) {
-      return res.status(400).json({ error: "nome e número obrigatórios" });
+      return res.status(400).json({ error: 'nome e número obrigatórios' });
     }
 
     const contact = await userService.addContact(userId, {
@@ -29,7 +29,7 @@ export default class ContactController {
     });
 
     if (!contact) {
-      return res.status(404).json({ error: "usuário não encontrado" });
+      return res.status(404).json({ error: 'usuário não encontrado' });
     }
 
     res.status(201).json(contact);
@@ -41,7 +41,9 @@ export default class ContactController {
     const result = await userService.deleteContact(userId, contactId);
 
     if (!result) {
-      return res.status(404).json({ error: "contato ou usuário não encontrado" });
+      return res
+        .status(404)
+        .json({ error: 'contato ou usuário não encontrado' });
     }
 
     res.status(204).send();
@@ -51,14 +53,15 @@ export default class ContactController {
     const { userId, contactId } = req.params;
     const { newContactName, newContactPhone } = req.body;
 
-    const contact = await userService.updateContact(
-      userId,
-      contactId,
-      { name: newContactName, phone: newContactPhone }
-    );
+    const contact = await userService.updateContact(userId, contactId, {
+      name: newContactName,
+      phone: newContactPhone,
+    });
 
     if (!contact) {
-      return res.status(404).json({ error: "contato ou usuário não encontrado" });
+      return res
+        .status(404)
+        .json({ error: 'contato ou usuário não encontrado' });
     }
 
     res.json(contact);

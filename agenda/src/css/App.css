@@ -1,5 +1,4 @@
-
-body{
+body {
   background: black;
   color: aliceblue;
   display: flex;
@@ -7,7 +6,7 @@ body{
   justify-content: center;
   flex-direction: column;
 }
-.userForm{
+.userForm {
   width: 400px;
   height: 150px;
   display: flex;
@@ -16,29 +15,27 @@ body{
   gap: 10px;
   border-radius: 10px;
 }
-.userForm input{
+.userForm input {
   width: 300px;
   height: 40px;
 }
-.userForm button{
+.userForm button {
   width: 100px;
   height: 40px;
 }
 
-.userMain{
+.userMain {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.userMain button{
+.userMain button {
   width: 50px;
   height: 30px;
 }
 
-  
-
-.newContactForm{
+.newContactForm {
   width: 400px;
   height: 150px;
   display: flex;
@@ -47,16 +44,16 @@ body{
   gap: 10px;
   border-radius: 10px;
 }
-.newContactForm input{
+.newContactForm input {
   width: 300px;
   height: 40px;
 }
-.newContactForm button{
+.newContactForm button {
   width: 100px;
   height: 40px;
 }
 
-.search input{
+.search input {
   width: 300px;
   height: 40px;
 }

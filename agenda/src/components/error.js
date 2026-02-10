@@ -1,9 +1,7 @@
-function Error({error}){
-    if(!error){
-        return null
-    }
-    return(
-        <p style={{ color: "red" }} >{error}</p>
-    )
+function Error({ error }) {
+  if (!error) {
+    return null;
+  }
+  return <p style={{ color: 'red' }}>{error}</p>;
 }
-export default Error
+export default Error;

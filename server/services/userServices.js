@@ -1,4 +1,4 @@
-import prisma from "../database/prismaClient.js";
+import prisma from '../database/prismaClient.js';
 
 export default class UserService {
   // USERS
