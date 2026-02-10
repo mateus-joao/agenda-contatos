@@ -1,9 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import usersRoutes from './routes/userRoutes.js';
-import contactsRoutes from './routes/contactsRoutes.js';
-
+import { usersRoutes, contactsRoutes } from './routes/routes.js';
 const app = express();
 
 app.use(cors());
