@@ -1,26 +1,25 @@
-import express from 'express';
-const router = express.Router();
-import ContactController from '../controllers/contactsControllers.js';
+import { Router } from 'express';
+import { ContactController } from '../controllers/index.js';
 const ContactControllerInstance = new ContactController();
-
+const contactsRoutes = Router();
 // contatos de um usuario
-router.get('/user/:userId', (req, res) =>
+contactsRoutes.get('/user/:userId', (req, res) =>
   ContactControllerInstance.getContacts(req, res)
 );
 
 // adicionar contato
-router.post('/user/:userId', (req, res) =>
+contactsRoutes.post('/user/:userId', (req, res) =>
   ContactControllerInstance.addContact(req, res)
 );
 
 // deletar contato
-router.delete('/:contactId/user/:userId', (req, res) =>
+contactsRoutes.delete('/:contactId/user/:userId', (req, res) =>
   ContactControllerInstance.deleteContact(req, res)
 );
 
 // atualizar contato
-router.put('/:contactId/user/:userId', (req, res) =>
+contactsRoutes.put('/:contactId/user/:userId', (req, res) =>
   ContactControllerInstance.updateContact(req, res)
 );
 
-export default router;
+export { contactsRoutes };
