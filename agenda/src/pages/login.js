@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
 function Login({ setUser, setError }) {
-  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const res = await fetch('http://localhost:3001/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userName, password }),
+      body: JSON.stringify({ userEmail, password }),
     });
     if (res.ok) {
       const data = await res.json();
@@ -25,10 +25,10 @@ function Login({ setUser, setError }) {
       <form className="userForm" onSubmit={handleLoginSubmit}>
         <input
           onChange={(e) => {
-            setUserName(e.target.value);
+            setUserEmail(e.target.value);
           }}
-          value={userName}
-          placeholder="Nome"
+          value={userEmail}
+          placeholder="email"
           type="text"
         />
 
@@ -43,6 +43,7 @@ function Login({ setUser, setError }) {
 
         <button type="submit">Entrar</button>
       </form>
+      <button>Esqueci a senha</button>
     </div>
   );
 }

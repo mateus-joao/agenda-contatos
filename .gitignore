@@ -2,3 +2,4 @@ node_modules
 # SQLite
 *.sqlite
 *.db
+dev.db-journal

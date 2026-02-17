@@ -8,6 +8,12 @@ export default class UserService {
     });
   }
 
+  async findUserByEmail(email) {
+    return prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
   async findUserById(id) {
     return prisma.user.findUnique({
       where: { id },
@@ -25,9 +31,37 @@ export default class UserService {
     return prisma.user.create({
       data: {
         name: user.name,
+        email: user.email,
         password: user.password,
       },
     });
+  }
+
+  async updateUser(userId, data) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) return null;
+
+    return prisma.user.update({
+      where: { id: userId },
+      data,
+    });
+  }
+
+  async deleteUser(userId) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) return null;
+
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    return true;
   }
 
   // CONTATOS
