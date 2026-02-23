@@ -1,5 +1,5 @@
 import { UserService } from '../services/index.js';
-
+//import nodemailer from 'nodemailer';
 const userService = new UserService();
 
 export default class UserController {
@@ -61,7 +61,7 @@ export default class UserController {
       res.status(400).json({ error: 'usuário não encontrado' });
     }
   }
-
+  //remover usuário
   async deleteUser(req, res) {
     const { userId } = req.params;
     const result = await userService.deleteUser(userId);
@@ -71,5 +71,55 @@ export default class UserController {
     }
 
     res.status(204).send();
+  }
+  // gerar link/token
+  async forgotPassword(req, res) {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email é obrigatório' });
+    }
+    const user = await userService.findUserByEmail(email.trim());
+    if (user) {
+      const token = await userService.generateResetToken(email);
+
+      // link
+      const resetLink = `http://localhost:3000/resetpassword?token=${token}`;
+      console.log('clique no link para redefinir a senha:');
+      console.log(resetLink);
+    }
+    /*
+    // configurar envio de email
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Recuperação de senha',
+      html: `
+      <p>Clique no link abaixo para redefinir sua senha:</p>
+      <a href="${resetLink}">${resetLink}</a>
+    `,
+    });
+  */
+    return res.json({
+      message: 'Se o email existir, um link será enviado.',
+    });
+  }
+  //recuperar conta
+  async resetPassword(req, res) {
+    const { token, password } = req.body;
+    const success = await userService.resetUserPassword(token, password);
+
+    if (!success) {
+      return res.status(400).json({ error: 'Token inválido ou expirado' });
+    }
+
+    res.json({ message: 'Senha atualizada com sucesso' });
   }
 }

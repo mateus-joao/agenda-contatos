@@ -1,5 +1,5 @@
 import prisma from '../database/prismaClient.js';
-
+import crypto from 'crypto';
 export default class UserService {
   // USERS
   async getUsers() {
@@ -64,6 +64,50 @@ export default class UserService {
     return true;
   }
 
+  async generateResetToken(email) {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) return null;
+
+    const token = crypto.randomBytes(32).toString('hex');
+
+    await prisma.user.update({
+      where: { email },
+      data: {
+        resetToken: token,
+        resetTokenExpires: new Date(Date.now() + 3600000), // 1 hora
+      },
+    });
+
+    return token;
+  }
+
+  async resetUserPassword(token, newPassword) {
+    const user = await prisma.user.findFirst({
+      where: {
+        resetToken: token,
+        resetTokenExpires: {
+          gt: new Date(),
+        },
+      },
+    });
+
+    if (!user) return null;
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: newPassword,
+        resetToken: null,
+        resetTokenExpires: null,
+      },
+    });
+
+    return true;
+  }
+
   // CONTATOS
   async addContact(userId, contact) {
     return prisma.contact.create({
@@ -76,7 +120,6 @@ export default class UserService {
   }
 
   async deleteContact(userId, contactId) {
-    // garante que o contato pertence ao usuário
     const contact = await prisma.contact.findFirst({
       where: { id: contactId, userId },
     });

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const NewUser = ({ setError, setUser }) => {
   const [userName, setUserName] = useState('');
@@ -22,6 +23,7 @@ const NewUser = ({ setError, setUser }) => {
   };
   return (
     <div>
+      <h2>Novo usuário</h2>
       <form className="userForm" onSubmit={handleNewUserSubmit}>
         <input
           onChange={(e) => setUserName(e.target.value)}
@@ -41,6 +43,7 @@ const NewUser = ({ setError, setUser }) => {
         />
         <button type="Submit">Enviar</button>
       </form>
+      <Link to="/">Já tem conta? Fazer login</Link>
     </div>
   );
 };
