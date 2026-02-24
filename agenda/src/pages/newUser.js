@@ -1,14 +1,16 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const NewUser = ({ setError, setUser }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const handleNewUserSubmit = async (e) => {
     e.preventDefault();
     const res = await fetch('http://localhost:3001/api/users/newUser', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userName, password }),
+      body: JSON.stringify({ userName, email, password }),
     });
     if (res.ok) {
       const data = await res.json();
@@ -21,13 +23,17 @@ const NewUser = ({ setError, setUser }) => {
   };
   return (
     <div>
+      <h2>Novo usuário</h2>
       <form className="userForm" onSubmit={handleNewUserSubmit}>
         <input
-          onChange={(e) => {
-            setUserName(e.target.value);
-          }}
+          onChange={(e) => setUserName(e.target.value)}
           value={userName}
           placeholder="Nome"
+        />
+        <input
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          placeholder="Email"
         />
         <input
           onChange={(e) => setPassword(e.target.value)}
@@ -37,6 +43,7 @@ const NewUser = ({ setError, setUser }) => {
         />
         <button type="Submit">Enviar</button>
       </form>
+      <Link to="/">Já tem conta? Fazer login</Link>
     </div>
   );
 };

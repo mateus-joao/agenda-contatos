@@ -1,14 +1,15 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Login({ setUser, setError }) {
-  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const res = await fetch('http://localhost:3001/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userName, password }),
+      body: JSON.stringify({ userEmail, password }),
     });
     if (res.ok) {
       const data = await res.json();
@@ -19,16 +20,16 @@ function Login({ setUser, setError }) {
       setError(data.error);
     }
   };
-
   return (
-    <div>
+    <div className="login">
+      <h2>Login</h2>
       <form className="userForm" onSubmit={handleLoginSubmit}>
         <input
           onChange={(e) => {
-            setUserName(e.target.value);
+            setUserEmail(e.target.value);
           }}
-          value={userName}
-          placeholder="Nome"
+          value={userEmail}
+          placeholder="email"
           type="text"
         />
 
@@ -43,6 +44,8 @@ function Login({ setUser, setError }) {
 
         <button type="submit">Entrar</button>
       </form>
+      <Link to="/register">Não tem conta? Criar usuário</Link>
+      <Link to="/forgotPassword">Esqueci minha senha</Link>
     </div>
   );
 }
