@@ -1,23 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { userLogin } from '../services/userServices';
 
 function Login({ setUser, setError }) {
   const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:3001/api/users/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userEmail, password }),
-    });
-    if (res.ok) {
-      const data = await res.json();
+    try {
+      const data = await userLogin({ userEmail, password });
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data);
-    } else {
-      const data = await res.json();
-      setError(data.error);
+    } catch (err) {
+      setError(err.message);
     }
   };
   return (

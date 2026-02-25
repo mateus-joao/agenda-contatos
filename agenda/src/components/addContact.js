@@ -1,10 +1,10 @@
-const AddContact = ({
+function AddContact({
   handleAddContact,
   newContactName,
   newContactPhone,
   setContactName,
   setContactPhone,
-}) => {
+}) {
   return (
     <div>
       <h1>Novo contato</h1>
@@ -29,6 +29,6 @@ const AddContact = ({
       </form>
     </div>
   );
-};
+}
 
 export default AddContact;

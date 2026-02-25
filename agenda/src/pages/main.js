@@ -4,6 +4,13 @@ import { useEffect, useState } from 'react';
 import SearchContact from '../components/searchContact';
 import UserMenu from '../components/userMenu';
 import EditUserModal from '../components/editUserModal';
+import { deleteUser, updateUser } from '../services/userServices';
+import {
+  createContact,
+  deleteContact,
+  updateContact,
+  getContacts,
+} from '../services/contactServices';
 const Main = ({ setError, setUser, user }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [contacts, setContacts] = useState([]);
@@ -19,20 +26,12 @@ const Main = ({ setError, setUser, user }) => {
   };
   //editar o usuário
   const handleUpdateUser = async (data) => {
-    const res = await fetch(
-      `http://localhost:3001/api/users/update/${user.id}`,
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      }
-    );
-    if (res.ok) {
-      const data = await res.json();
-      setUser(data);
+    try {
+      const res = await updateUser(user.id, data);
+      setUser(res);
       setEditOpen(false);
-    } else {
-      console.log('erro', res);
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -44,17 +43,12 @@ const Main = ({ setError, setUser, user }) => {
     );
 
     if (!confirm) return;
-    const res = await fetch(
-      `http://localhost:3001/api/users/delete/${user.id}`,
-      {
-        method: 'DELETE',
-      }
-    );
-    if (res.ok) {
+    try {
+      await deleteUser(user.id);
       localStorage.setItem('user', JSON.stringify(''));
       setUser(null);
-    } else {
-      console.log('error ', res);
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -71,39 +65,32 @@ const Main = ({ setError, setUser, user }) => {
     e.preventDefault();
     //editar
     if (id) {
-      const res = await fetch(
-        `http://localhost:3001/api/contacts/${id}/user/${user.id}`,
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ newContactName, newContactPhone }),
-        }
-      );
-
-      if (res.ok) {
+      try {
+        const data = await updateContact(id, user.id, {
+          newContactName,
+          newContactPhone,
+        });
         setContactName('');
         setContactPhone('');
         setId(null);
-        const data = await res.json();
         setContacts(
           contacts.map((c) => (c.id === data.id ? { ...c, ...data } : c))
         );
+      } catch (err) {
+        setError(err.message);
       }
       //addcontato
     } else {
-      const res = await fetch(
-        `http://localhost:3001/api/contacts/user/${user.id}`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ newContactName, newContactPhone }),
-        }
-      );
-      if (res.ok) {
+      try {
+        const data = await createContact(user.id, {
+          newContactName,
+          newContactPhone,
+        });
         setContactName('');
         setContactPhone('');
-        const data = await res.json();
         setContacts([...contacts, data]);
+      } catch (err) {
+        setError(err.message);
       }
     }
   };
@@ -115,19 +102,16 @@ const Main = ({ setError, setUser, user }) => {
 
   useEffect(() => {
     if (!user?.id) return;
-    async function getContacts() {
+    async function getContact() {
       try {
-        const response = await fetch(
-          `http://localhost:3001/api/contacts/user/${user.id}`
-        );
-        const data = await response.json();
+        const data = await getContacts(user.id);
         setContacts(data);
       } catch (error) {
         console.error('Erro ao buscar contatos:', error);
       }
     }
 
-    getContacts();
+    getContact();
   }, [user?.id]);
 
   //apagando contato
@@ -137,16 +121,11 @@ const Main = ({ setError, setUser, user }) => {
     );
 
     if (!confirm) return;
-    const res = await fetch(
-      `http://localhost:3001/api/contacts/${e}/user/${user.id}`,
-      {
-        method: 'DELETE',
-      }
-    );
-    if (res.ok) {
+    try {
+      await deleteContact(e, user.id);
       setContacts(contacts.filter((c) => c.id !== e));
-    } else {
-      console.log('error ', res);
+    } catch (err) {
+      setError(err.message);
     }
   };
 
