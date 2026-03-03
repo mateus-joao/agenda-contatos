@@ -1,21 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { createUser } from '../services/userServices';
-
+import { useUser } from '../hooks/useUser';
 const NewUser = ({ setError, setUser }) => {
+  const { addUser } = useUser(setUser, setError);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const handleNewUserSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const data = await createUser({ userName, email, password });
-      console.log(data);
-      localStorage.setItem('user', JSON.stringify(data));
-      setUser(data);
-    } catch (err) {
-      setError(err.message);
-    }
+    await addUser({ userName, email, password });
   };
   return (
     <div>

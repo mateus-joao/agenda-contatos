@@ -1,19 +1,13 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { userLogin } from '../services/userServices';
-
+import { useUser } from '../hooks/useUser';
 function Login({ setUser, setError }) {
+  const { login } = useUser(setUser, setError);
   const [userEmail, setUserEmail] = useState('');
   const [password, setPassword] = useState('');
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const data = await userLogin({ userEmail, password });
-      localStorage.setItem('user', JSON.stringify(data));
-      setUser(data);
-    } catch (err) {
-      setError(err.message);
-    }
+    await login({ userEmail, password });
   };
   return (
     <div className="login">

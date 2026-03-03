@@ -1,18 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function EditUserModal({ open, onClose, handleUpdateUser }) {
+function EditUserModal({ open, onClose, editUser, user }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  function onSubmit(e) {
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name || '');
+      setEmail(user.email || '');
+      setPassword('');
+    }
+  }, [user, open]);
+
+  async function onSubmit(e) {
     e.preventDefault();
 
-    handleUpdateUser({
+    await editUser(user.id, {
       name,
       email,
       password,
     });
+
+    onClose();
   }
+
   if (!open) return null;
 
   return (
@@ -23,24 +35,27 @@ function EditUserModal({ open, onClose, handleUpdateUser }) {
         <form className="userForm" onSubmit={onSubmit}>
           <input
             placeholder="Nome"
-            onChange={(e) => setName(e.target.value)}
             value={name}
+            onChange={(e) => setName(e.target.value)}
           />
+
           <input
             placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
             value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
+
           <input
-            placeholder="nova senha"
-            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Nova senha"
             value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <div className="actions">
             <button type="button" onClick={onClose}>
               Cancelar
             </button>
+
             <button type="submit">Salvar</button>
           </div>
         </form>

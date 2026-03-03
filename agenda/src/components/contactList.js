@@ -1,11 +1,19 @@
 import { FaEdit, FaWindowClose } from 'react-icons/fa';
 
 function ContactList({
-  handleDeleteContact,
+  removeContact,
   contacts,
   handleEditContact,
   searchTerm,
 }) {
+  async function handleDeleteContact(e) {
+    const confirm = window.confirm(
+      'Tem certeza que deseja excluir o contato? Essa ação é irreversível.'
+    );
+
+    if (!confirm) return;
+    await removeContact(e);
+  }
   if (!contacts || contacts.length === 0) {
     return <p>Nenhum contato encontrado.</p>;
   }
