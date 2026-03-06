@@ -1,25 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useUser } from '../hooks/useUser';
 const NewUser = ({ setError, setUser }) => {
+  const { addUser } = useUser(setUser, setError);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const handleNewUserSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('http://localhost:3001/api/users/newUser', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userName, email, password }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      localStorage.setItem('user', JSON.stringify(data));
-      setUser(data);
-    } else {
-      const data = await res.json();
-      setError(data.error);
-    }
+    await addUser({ userName, email, password });
   };
   return (
     <div>

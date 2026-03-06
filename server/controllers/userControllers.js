@@ -24,6 +24,7 @@ export default class UserController {
     res.json({
       id: user.id,
       name: user.name,
+      email: user.email,
     });
   }
 
@@ -44,6 +45,7 @@ export default class UserController {
     res.status(201).json({
       id: user.id,
       name: user.name,
+      email: user.email,
     });
   }
 

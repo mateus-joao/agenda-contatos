@@ -1,25 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { useAccountRecovery } from '../hooks/useAccountRecovery';
 function ForgotPassword({ setError }) {
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const { requestRecovery } = useAccountRecovery(setError);
   async function handleSubmit(e) {
     e.preventDefault();
-
-    const res = await fetch('http://localhost:3001/api/users/forgotPassword', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      alert(data.message);
-      navigate('/');
-    } else {
-      const data = await res.json();
-      setError(data.error);
-    }
+    await requestRecovery(email);
+    navigate('/');
   }
 
   return (
