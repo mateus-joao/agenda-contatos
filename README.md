@@ -20,7 +20,7 @@ Funcionalidades
   * Interface web simples e intuitiva para gerenciamento de contatos
 
 Estrutura do Projeto:
-
+```
 agenda-contatos
 │
 ├── backend
@@ -43,7 +43,7 @@ agenda-contatos
 │   └── package.json
 │
 └── README.md
-
+```
 Como executar o projeto:
 
 1. Clonar o repositório
