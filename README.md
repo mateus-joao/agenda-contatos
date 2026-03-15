@@ -21,25 +21,25 @@ Funcionalidades:
 
 Estrutura do Projeto:
 ```
-agenda-contatos
+agenda-contatos/
 │
-├── backend
-│   ├── controllers
-│   ├── database
-│   ├── prisma
-│   ├── routes
-│   ├── services
+├── backend/
+│   ├── controllers/
+│   ├── database/
+│   ├── prisma/
+│   ├── routes/
+│   ├── services/
 │   └── server.js
 │
 ├── frontend
-│   ├── public
-│   ├── src
-│   │   ├── api
-│   │   ├── components
-│   │   ├── css
-│   │   ├── hooks
-│   │   ├── pages
-│   │   └── services
+│   ├── public/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── css/
+│   │   ├── hooks/
+│   │   ├── pages/
+│   │   └── services/
 │   └── package.json
 │
 └── README.md
@@ -59,7 +59,7 @@ Como executar o projeto:
   npm start
 
 Objetivo do Projeto:
-  Este projeto foi desenvolvido como parte dos meus estudos e tem como objetivo praticar a construção de aplicações web utilizando tecnologias modernas do ecossistema JavaScript.
+ Este projeto foi desenvolvido com o objetivo de praticar o desenvolvimento de aplicações web utilizando tecnologias do ecossistema JavaScript, incluindo React no frontend e Node.js com Express no backend.
 
 Autor:
   Mateus João da Paixão
