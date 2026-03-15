@@ -4,7 +4,7 @@ Aplicação web desenvolvida para gerenciamento de contatos. O sistema permite c
 
 Este projeto foi desenvolvido com o objetivo de praticar conceitos de desenvolvimento web utilizando JavaScript, React e Node.js, além de aplicar boas práticas de organização de código e versionamento com Git.
 
-Tecnologias Utilizadas
+Tecnologias Utilizadas:
   * JavaScript
   * React
   * Node.js
@@ -13,7 +13,7 @@ Tecnologias Utilizadas
   * CSS3
   * Git e GitHub
 
-Funcionalidades
+Funcionalidades:
   * Cadastro de novos contatos
   * Listagem de contatos cadastrados
   * Organização das informações de cada contato
