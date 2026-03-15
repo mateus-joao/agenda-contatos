@@ -64,5 +64,5 @@ Objetivo do Projeto:
 Autor:
   Mateus João da Paixão
 
-  Estudante de Análise e Desenvolvimento de Sistemas
-  Técnico em Informática para Internet
+  Estudante de Análise e Desenvolvimento de Sistemas 
+  e Técnico em Informática para Internet
