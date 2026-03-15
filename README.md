@@ -2,8 +2,6 @@ Agenda de Contatos
 
 Aplicação web desenvolvida para gerenciamento de contatos. O sistema permite cadastrar e visualizar informações de contatos de forma simples e organizada através de uma interface web.
 
-Este projeto foi desenvolvido com o objetivo de praticar conceitos de desenvolvimento web utilizando JavaScript, React e Node.js, além de aplicar boas práticas de organização de código e versionamento com Git.
-
 Tecnologias Utilizadas:
   * JavaScript
   * React
@@ -46,22 +44,22 @@ agenda-contatos/
 ```
 Como executar o projeto:
 
-1. Clonar o repositório
+1. Clonar o repositório: 
   git clone https://github.com/mateus-joao/agenda-contatos
 
-2. Acessar a pasta do projeto
+2. Acessar a pasta do projeto: 
   cd agenda-contatos
 
-3. Instalar as dependências
+3. Instalar as dependências: 
   npm install
 
-4. Executar a aplicação
+4. Executar a aplicação: 
   npm start
 
 Objetivo do Projeto:
  Este projeto foi desenvolvido com o objetivo de praticar o desenvolvimento de aplicações web utilizando tecnologias do ecossistema JavaScript, incluindo React no frontend e Node.js com Express no backend.
 
-Autor:
+Autor: 
   Mateus João da Paixão
 
   Estudante de Análise e Desenvolvimento de Sistemas 
