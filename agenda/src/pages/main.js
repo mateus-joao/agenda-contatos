@@ -8,10 +8,8 @@ import { useContacts } from '../hooks/useContacts';
 import { useUser } from '../hooks/useUser';
 const Main = ({ setError, setUser, user }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { contacts, removeContact, addContact, editContact } = useContacts(
-    user?.id,
-    setError
-  );
+  const { contacts, removeContact, addContact, editContact } =
+    useContacts(setError);
   const { removeUser, editUser, logoutUser } = useUser(setUser, setError);
   const [editingContact, setEditingContact] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);

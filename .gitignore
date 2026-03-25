@@ -3,3 +3,4 @@ node_modules
 *.sqlite
 *.db
 dev.db-journal
+.env

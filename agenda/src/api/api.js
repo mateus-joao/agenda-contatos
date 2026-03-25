@@ -1,9 +1,11 @@
 const API_URL = 'http://localhost:3001/api';
 
 export async function api(path, options = {}) {
+  const token = localStorage.getItem('token');
   const res = await fetch(`${API_URL}${path}`, {
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
     },
     ...options,
   });

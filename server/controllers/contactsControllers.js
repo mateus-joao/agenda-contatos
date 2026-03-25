@@ -4,7 +4,7 @@ const userService = new UserService();
 
 export default class ContactController {
   async getContacts(req, res) {
-    const { userId } = req.params;
+    const userId = req.userId;
 
     const user = await userService.findUserById(userId);
 
@@ -16,7 +16,7 @@ export default class ContactController {
   }
 
   async addContact(req, res) {
-    const { userId } = req.params;
+    const userId = req.userId;
     const { newContactName, newContactPhone } = req.body;
 
     if (!newContactName || !newContactPhone) {
@@ -36,7 +36,8 @@ export default class ContactController {
   }
 
   async deleteContact(req, res) {
-    const { userId, contactId } = req.params;
+    const userId = req.userId;
+    const { contactId } = req.params;
 
     const result = await userService.deleteContact(userId, contactId);
 
@@ -50,7 +51,8 @@ export default class ContactController {
   }
 
   async updateContact(req, res) {
-    const { userId, contactId } = req.params;
+    const userId = req.userId;
+    const { contactId } = req.params;
     const { newContactName, newContactPhone } = req.body;
 
     const contact = await userService.updateContact(userId, contactId, {

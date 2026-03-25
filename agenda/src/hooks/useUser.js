@@ -4,26 +4,39 @@ import {
   deleteUser,
   updateUser,
   userLogin,
+  getUser,
 } from '../services/userServices';
 export function useUser(setUser, setError) {
-  const removeUser = useCallback(
-    async (userId) => {
-      try {
-        await deleteUser(userId);
-        localStorage.removeItem('user');
-        setUser(null);
-      } catch (err) {
-        setError?.(err.message);
-      }
-    },
-    [setUser, setError]
-  );
+  const removeUser = useCallback(async () => {
+    try {
+      await deleteUser();
+      localStorage.removeItem('token');
+      setUser(null);
+    } catch (err) {
+      setError?.(err.message);
+    }
+  }, [setUser, setError]);
+  const userdata = useCallback(async () => {
+    try {
+      const user = await getUser();
+      if (!user) return;
+      setUser(user);
+    } catch (err) {
+      setError(err.message);
+    }
+  }, [setError, setUser]);
   const login = useCallback(
-    async (user) => {
+    async (userdata) => {
       try {
-        const data = await userLogin(user);
-        localStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
+        const data = await userLogin(userdata);
+        localStorage.setItem('token', data.token);
+        try {
+          const user = await getUser();
+          if (!user) return;
+          setUser(user);
+        } catch (err) {
+          setError(err.message);
+        }
       } catch (err) {
         setError(err.message);
       }
@@ -34,8 +47,13 @@ export function useUser(setUser, setError) {
     async (newUser) => {
       try {
         const data = await createUser(newUser);
-        localStorage.setItem('user', JSON.stringify(data));
-        setUser(data);
+        localStorage.setItem('token', data.token);
+        try {
+          const user1 = await getUser();
+          setUser(user1);
+        } catch (err) {
+          setError(err.message);
+        }
       } catch (err) {
         setError(err.message);
       }
@@ -43,9 +61,9 @@ export function useUser(setUser, setError) {
     [setUser, setError]
   );
   const editUser = useCallback(
-    async (userId, data) => {
+    async (data) => {
       try {
-        const updatedUser = await updateUser(userId, data);
+        const updatedUser = await updateUser(data);
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
       } catch (err) {
@@ -55,9 +73,9 @@ export function useUser(setUser, setError) {
     [setUser, setError]
   );
   const logoutUser = useCallback(() => {
-    localStorage.removeItem('user');
+    localStorage.removeItem('token');
     setUser(null);
   }, [setUser]);
 
-  return { removeUser, editUser, logoutUser, login, addUser };
+  return { removeUser, editUser, logoutUser, login, addUser, userdata };
 }
