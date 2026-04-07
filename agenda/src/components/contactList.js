@@ -25,12 +25,17 @@ function ContactList({
     <ul>
       {filterContacts.map((contact) => (
         <li key={contact.id}>
-          <strong>{contact.name}</strong> — {contact.phone}
-          <FaEdit onClick={() => handleEditContact(contact)} />
-          <FaWindowClose
-            onClick={() => handleDeleteContact(contact.id)}
-            className="delete"
-          />
+          <div className="contact-info">
+            <strong>{contact.name}</strong>
+            <span className="phone">{contact.phone}</span>
+          </div>
+          <div className="actions">
+            <FaEdit onClick={() => handleEditContact(contact)} />
+            <FaWindowClose
+              onClick={() => handleDeleteContact(contact.id)}
+              className="delete"
+            />
+          </div>
         </li>
       ))}
     </ul>

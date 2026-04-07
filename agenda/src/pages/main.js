@@ -45,6 +45,7 @@ const Main = ({ setError, setUser, user }) => {
             />
           </div>
         )}
+        <SearchContact setSearchTerm={setSearchTerm} />
       </div>
       <EditUserModal
         open={editOpen}
@@ -58,7 +59,6 @@ const Main = ({ setError, setUser, user }) => {
         editingContact={editingContact}
         clearEditingContact={() => setEditingContact(null)}
       />
-      <SearchContact setSearchTerm={setSearchTerm} />
 
       <ContactList
         searchTerm={searchTerm}
