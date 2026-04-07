@@ -6,15 +6,16 @@ import {
   updateContact,
 } from '../services/contactServices';
 
-export function useContacts(userId, setError) {
+export function useContacts(setError) {
   const [contacts, setContacts] = useState([]);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    if (!userId) return;
+    if (!token) return;
 
     async function fetchContacts() {
       try {
-        const data = await getContacts(userId);
+        const data = await getContacts();
         setContacts(data);
       } catch (err) {
         setError?.(err.message);
@@ -22,44 +23,44 @@ export function useContacts(userId, setError) {
     }
 
     fetchContacts();
-  }, [userId, setError]);
+  }, [token, setError]);
 
   const removeContact = useCallback(
     async (contactId) => {
-      if (!userId) return;
+      if (!token) return;
 
       try {
-        await deleteContact(contactId, userId);
+        await deleteContact(contactId);
 
         setContacts((prev) => prev.filter((c) => c.id !== contactId));
       } catch (err) {
         setError?.(err.message);
       }
     },
-    [userId, setError]
+    [token, setError]
   );
 
   const addContact = useCallback(
     async (contact) => {
-      if (!userId) return;
+      if (!token) return;
 
       try {
-        const data = await createContact(userId, contact);
+        const data = await createContact(contact);
 
         setContacts((prev) => [...prev, data]);
       } catch (err) {
         setError?.(err.message);
       }
     },
-    [userId, setError]
+    [token, setError]
   );
 
   const editContact = useCallback(
     async (contactId, contact) => {
-      if (!userId) return;
+      if (!token) return;
 
       try {
-        const data = await updateContact(contactId, userId, contact);
+        const data = await updateContact(contactId, contact);
 
         setContacts((prev) =>
           prev.map((c) => (c.id === data.id ? { ...c, ...data } : c))
@@ -68,7 +69,7 @@ export function useContacts(userId, setError) {
         setError?.(err.message);
       }
     },
-    [userId, setError]
+    [token, setError]
   );
 
   return {

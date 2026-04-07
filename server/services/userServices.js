@@ -7,6 +7,16 @@ export default class UserService {
       include: { contacts: true },
     });
   }
+  async getUser(id) {
+    return prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+      },
+    });
+  }
 
   async findUserByEmail(email) {
     return prisma.user.findUnique({
@@ -44,9 +54,15 @@ export default class UserService {
 
     if (!user) return null;
 
+    const updatedData = {};
+
+    if (data.name) updatedData.name = data.name;
+    if (data.email) updatedData.email = data.email;
+    if (data.password) updatedData.password = data.password;
+
     return prisma.user.update({
       where: { id: userId },
-      data,
+      data: updatedData,
     });
   }
 

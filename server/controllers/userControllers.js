@@ -1,4 +1,6 @@
 import { UserService } from '../services/index.js';
+import bcrypt from 'bcryptjs';
+import { generateToken } from '../utils/jwt.js';
 //import nodemailer from 'nodemailer';
 const userService = new UserService();
 
@@ -6,6 +8,19 @@ export default class UserController {
   async getUsers(req, res) {
     const users = await userService.getUsers();
     res.json(users);
+  }
+
+  async getUser(req, res) {
+    const userId = req.userId;
+    const user = await userService.getUser(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'usuário não encontrado' });
+    }
+    res.status(201).json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
   }
 
   // login
@@ -16,16 +31,13 @@ export default class UserController {
     if (!user) {
       return res.status(401).json({ error: 'Email inválido' });
     }
-
-    if (user.password !== password) {
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
       return res.status(401).json({ error: 'senha inválida' });
     }
+    const token = generateToken(user.id);
 
-    res.json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    });
+    res.json({ token });
   }
 
   // cadastro de usuário
@@ -35,24 +47,26 @@ export default class UserController {
     if (userAlreadyExist) {
       return res.status(400).json({ error: 'este e-mail já está em uso' });
     }
-
+    const passwordHash = await bcrypt.hash(password, 10);
     const user = await userService.createUser({
       name: userName.trim(),
       email,
-      password,
+      password: passwordHash,
     });
+    const token = generateToken(user.id);
 
-    res.status(201).json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    });
+    res.status(201).json({ token });
   }
 
   // editar usuário
   async updateUser(req, res) {
-    const { userId } = req.params;
+    const userId = req.userId;
     const data = req.body;
+    if (data.password) {
+      const passwordHash = await bcrypt.hash(data.password, 10);
+      data.password = passwordHash;
+    }
+
     const user = await userService.updateUser(userId, data);
     if (user) {
       res.status(201).json({
@@ -65,7 +79,7 @@ export default class UserController {
   }
   //remover usuário
   async deleteUser(req, res) {
-    const { userId } = req.params;
+    const userId = req.userId;
     const result = await userService.deleteUser(userId);
 
     if (!result) {
@@ -116,7 +130,8 @@ export default class UserController {
   //recuperar conta
   async resetPassword(req, res) {
     const { token, password } = req.body;
-    const success = await userService.resetUserPassword(token, password);
+    const passwordHash = await bcrypt.hash(password, 10);
+    const success = await userService.resetUserPassword(token, passwordHash);
 
     if (!success) {
       return res.status(400).json({ error: 'Token inválido ou expirado' });

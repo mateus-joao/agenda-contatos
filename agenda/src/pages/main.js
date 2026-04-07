@@ -8,10 +8,8 @@ import { useContacts } from '../hooks/useContacts';
 import { useUser } from '../hooks/useUser';
 const Main = ({ setError, setUser, user }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const { contacts, removeContact, addContact, editContact } = useContacts(
-    user?.id,
-    setError
-  );
+  const { contacts, removeContact, addContact, editContact } =
+    useContacts(setError);
   const { removeUser, editUser, logoutUser } = useUser(setUser, setError);
   const [editingContact, setEditingContact] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
@@ -47,6 +45,7 @@ const Main = ({ setError, setUser, user }) => {
             />
           </div>
         )}
+        <SearchContact setSearchTerm={setSearchTerm} />
       </div>
       <EditUserModal
         open={editOpen}
@@ -60,7 +59,6 @@ const Main = ({ setError, setUser, user }) => {
         editingContact={editingContact}
         clearEditingContact={() => setEditingContact(null)}
       />
-      <SearchContact setSearchTerm={setSearchTerm} />
 
       <ContactList
         searchTerm={searchTerm}

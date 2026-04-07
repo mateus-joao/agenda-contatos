@@ -16,7 +16,7 @@ function EditUserModal({ open, onClose, editUser, user }) {
   async function onSubmit(e) {
     e.preventDefault();
 
-    await editUser(user.id, {
+    await editUser({
       name,
       email,
       password,

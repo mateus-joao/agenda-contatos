@@ -7,18 +7,18 @@ import './css/App.css';
 import { useState, useEffect } from 'react';
 import ResetPassword from './pages/resetPassword';
 import ForgotPassword from './pages/forgotPassword';
-
+import { useUser } from './hooks/useUser';
 const App = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
-
+  const { userdata } = useUser(setUser, setUser);
   useEffect(() => {
-    const checkUser = localStorage.getItem('user');
-    if (checkUser) {
-      setUser(JSON.parse(checkUser));
-    }
-  }, []);
+    const token = localStorage.getItem('token');
 
+    if (token) {
+      userdata();
+    }
+  }, [userdata]);
   return (
     <div>
       <Error error={error} />

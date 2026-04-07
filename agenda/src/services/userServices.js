@@ -8,23 +8,28 @@ export function userLogin(data) {
 }
 //novo usuário
 export function createUser(data) {
-  console.log(data);
   return api('/users/newUser', {
     method: 'POST',
     body: JSON.stringify(data),
   });
 }
+// usuário
+export function getUser() {
+  return api('/users/me', {
+    method: 'GET',
+  });
+}
 // atualizar usuário
-export function updateUser(userId, data) {
-  return api(`/users/update/${userId}`, {
+export function updateUser(data) {
+  return api(`/users/update`, {
     method: 'PUT',
     body: JSON.stringify(data),
   });
 }
 
 // deletar usuário
-export function deleteUser(userId) {
-  return api(`/users/delete/${userId}`, {
+export function deleteUser() {
+  return api(`/users/delete`, {
     method: 'DELETE',
   });
 }
