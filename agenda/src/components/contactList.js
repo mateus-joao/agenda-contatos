@@ -25,8 +25,26 @@ function ContactList({
     <ul>
       {filterContacts.map((contact) => (
         <li key={contact.id}>
-          <strong>{contact.name}</strong> {contact.phone}
-          <div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            <strong>{contact.name}</strong>
+            <span
+              style={{
+                textAlign: 'right',
+                flex: 1,
+                fontSize: '18px',
+                color: '#00ffff',
+              }}
+            >
+              {contact.phone}
+            </span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <FaEdit onClick={() => handleEditContact(contact)} />
             <FaWindowClose
               onClick={() => handleDeleteContact(contact.id)}

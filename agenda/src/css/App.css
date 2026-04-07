@@ -22,7 +22,7 @@ body {
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  width: 100%;  
+  width: 100%;
   max-width: 400px;
 }
 
@@ -71,7 +71,9 @@ body {
 }
 
 .userForm button:hover {
-  box-shadow: 0 0 25px rgba(0, 255, 255, 1), 0 0 35px rgba(255, 0, 255, 0.5);
+  box-shadow:
+    0 0 25px rgba(0, 255, 255, 1),
+    0 0 35px rgba(255, 0, 255, 0.5);
   transform: translateY(-2px);
 }
 
@@ -105,7 +107,6 @@ body {
   min-width: 150px;
 }
 .userMain button {
-  
   background: linear-gradient(45deg, #00ffff, #ff00ff);
   color: #000000;
   border: none;
@@ -175,7 +176,9 @@ body {
 }
 
 .newContactForm button:hover {
-  box-shadow: 0 0 25px rgba(0, 255, 255, 1), 0 0 35px rgba(255, 0, 255, 0.5);
+  box-shadow:
+    0 0 25px rgba(0, 255, 255, 1),
+    0 0 35px rgba(255, 0, 255, 0.5);
   transform: translateY(-2px);
 }
 
@@ -236,13 +239,15 @@ span {
   color: #ff6b6b;
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
   color: #00ffff;
   text-decoration: none;
   transition: color 0.3s;
 }
 
-a:hover, a:active {
+a:hover,
+a:active {
   color: #ff00ff;
   text-decoration: underline;
 }
@@ -261,10 +266,12 @@ li {
   padding: 15px;
   margin-bottom: 10px;
   display: flex;
-  align-items: center;  
+  align-items: center;
   justify-content: space-between;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 li:hover {
@@ -280,7 +287,9 @@ li strong {
 li svg {
   cursor: pointer;
   margin-left: 10px;
-  transition: color 0.3s, transform 0.3s;
+  transition:
+    color 0.3s,
+    transform 0.3s;
 }
 
 li svg:hover {
